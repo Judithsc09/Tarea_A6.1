@@ -1,24 +1,31 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Product;
 use Illuminate\Http\Request;
+
 
 class productsController extends Controller
 {
-   private $products =[["nombre" => "tv","descripcion" => "tele 4k","imagen"=>"/img/game.png", "precio" => "400 euros"],
-                      ["nombre" => "iphone","descripcion" => "movil de apple","imagen"=>"/img/safe.png", "precio" => "1000 euros"], 
-                      ["nombre" => "ordenador","descripcion" => "Ordenador de alta gama","imagen"=>"/img/submarine.png", "precio" => "2500 euros"]];
-
     public function index()
     {
+        $viewData=[];
+        $products = Product::all();
+        $viewData["title"]="productos";
+        $viewData["subtitle"]="Listado Productos";
+        $viewData["products"]=$products;
+        return view('home.products')->with("viewData",$viewData);
+    }
 
-        return view("home.products")->with("products",$this->products);
 
-
-
-
-
+    public function show($id)
+    {
+        $viewData=[];
+        $product = Product::find($id);
+        $viewData["title"]="productos".$id;
+        $viewData["subtitle"]="Listado Productos".$id;
+        $viewData["product"]=$product;
+        return view('home.product')->with("viewData", $viewData);
     }
 
 
